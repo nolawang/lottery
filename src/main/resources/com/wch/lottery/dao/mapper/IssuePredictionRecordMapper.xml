@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wch.lottery.dao.mapper.IssuePredictionRecordMapper">
+  <resultMap id="BaseResultMap" type="com.wch.lottery.model.IssuePredictionRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="issue_no" jdbcType="INTEGER" property="issueNo" />
+    <result column="num" jdbcType="TINYINT" property="num" />
+    <result column="red" jdbcType="BOOLEAN" property="red" />
+    <result column="hit" jdbcType="BOOLEAN" property="hit" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, issue_no, num, red, hit
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from issue_prediction_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from issue_prediction_record
+    <where>
+      <if test="issueNo != null">
+        and issue_no = #{issueNo,jdbcType=INTEGER}
+      </if>
+      <if test="num != null">
+        and num = #{num,jdbcType=TINYINT}
+      </if>
+      <if test="red != null">
+        and red = #{red,jdbcType=BOOLEAN}
+      </if>
+      <if test="hit != null">
+        and hit = #{hit,jdbcType=BOOLEAN}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from issue_prediction_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wch.lottery.model.IssuePredictionRecord" useGeneratedKeys="true">
+    insert into issue_prediction_record (issue_no, num, red, 
+      hit)
+    values (#{issueNo,jdbcType=INTEGER}, #{num,jdbcType=TINYINT}, #{red,jdbcType=BOOLEAN}, 
+      #{hit,jdbcType=BOOLEAN})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wch.lottery.model.IssuePredictionRecord" useGeneratedKeys="true">
+    insert into issue_prediction_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="issueNo != null">
+        issue_no,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="red != null">
+        red,
+      </if>
+      <if test="hit != null">
+        hit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="issueNo != null">
+        #{issueNo,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=TINYINT},
+      </if>
+      <if test="red != null">
+        #{red,jdbcType=BOOLEAN},
+      </if>
+      <if test="hit != null">
+        #{hit,jdbcType=BOOLEAN},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wch.lottery.model.IssuePredictionRecord">
+    update issue_prediction_record
+    <set>
+      <if test="issueNo != null">
+        issue_no = #{issueNo,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=TINYINT},
+      </if>
+      <if test="red != null">
+        red = #{red,jdbcType=BOOLEAN},
+      </if>
+      <if test="hit != null">
+        hit = #{hit,jdbcType=BOOLEAN},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wch.lottery.model.IssuePredictionRecord">
+    update issue_prediction_record
+    set issue_no = #{issueNo,jdbcType=INTEGER},
+      num = #{num,jdbcType=TINYINT},
+      red = #{red,jdbcType=BOOLEAN},
+      hit = #{hit,jdbcType=BOOLEAN}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

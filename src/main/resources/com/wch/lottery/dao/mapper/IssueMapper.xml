@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wch.lottery.dao.mapper.IssueMapper">
+  <resultMap id="BaseResultMap" type="com.wch.lottery.model.Issue">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="issue_no" jdbcType="INTEGER" property="issueNo" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, issue_no, `date`, `result`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from issue
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectMaxIssue" resultMap="BaseResultMap">
+    select
+    max(issue_no) issue_no
+    from issue
+
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from issue
+    <where>
+      <if test="issueNo != null">
+        and issue_no = #{issueNo,jdbcType=INTEGER}
+      </if>
+      <if test="date != null">
+        and `date` = #{date,jdbcType=DATE}
+      </if>
+      <if test="result != null">
+        and `result` = #{result,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from issue
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wch.lottery.model.Issue" useGeneratedKeys="true">
+    insert into issue (issue_no, `date`, `result`
+      )
+    values (#{issueNo,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{result,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wch.lottery.model.Issue" useGeneratedKeys="true">
+    insert into issue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="issueNo != null">
+        issue_no,
+      </if>
+      <if test="date != null">
+        `date`,
+      </if>
+      <if test="result != null">
+        `result`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="issueNo != null">
+        #{issueNo,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wch.lottery.model.Issue">
+    update issue
+    <set>
+      <if test="issueNo != null">
+        issue_no = #{issueNo,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        `date` = #{date,jdbcType=DATE},
+      </if>
+      <if test="result != null">
+        `result` = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wch.lottery.model.Issue">
+    update issue
+    set issue_no = #{issueNo,jdbcType=INTEGER},
+      `date` = #{date,jdbcType=DATE},
+      `result` = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
